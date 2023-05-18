@@ -176,13 +176,6 @@ table {
   grid-area: section-note;
 }
 
-<<<<<<< HEAD
-.main-grid-item-section-note div {
-  /* border: 1px solid; */
-}
-
-=======
->>>>>>> dbd9e3a7928da0e8d40d5d98c2de15f551f5c847
 .main-section-note-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, 250px);

@@ -5,13 +5,7 @@ function App() {
   return (
     <div className="App grid-container">
       <div className="grid-item-header">
-<<<<<<< HEAD
-        <div className="container-header">
-          <header id="header"></header>
-        </div>
-=======
         <header className="header">헤더</header>
->>>>>>> dbd9e3a7928da0e8d40d5d98c2de15f551f5c847
       </div>
       <div className="grid-item-main">
         <main className="main main-grid-container">
