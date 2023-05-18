@@ -185,7 +185,7 @@ body {
 }
 
 .main-grid-item-section-note div {
-  border: 1px solid;
+  /* border: 1px solid; */
 }
 
 .main-section-note-grid-container {
@@ -215,7 +215,7 @@ body {
   font-weight: bold;
 }
 
-/* @media screen and (max-width: 500px) {
+@media screen and (max-width: 500px) {
   .main-grid-container {
     display: grid;
     grid-template-columns: 50px 400px;
@@ -228,4 +228,4 @@ body {
     grid-template-columns: repeat(auto-fill, 50%);
     grid-auto-rows: 100px;
   }
-} */
+}

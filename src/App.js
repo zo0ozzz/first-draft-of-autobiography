@@ -1,15 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
 
 function App() {
   return (
     <div className="grid-container">
       <div className="grid-item-header">
         <div className="container-header">
-          <header id="header">헤더</header>
+          <header id="header"></header>
         </div>
       </div>
       <div className="grid-item-main">
