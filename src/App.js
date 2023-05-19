@@ -1,24 +1,75 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
+
+function App() {
+  const pageTitle = "초고";
+  const [navItem, setNavItem] = useState(["nav1", "nav2", "nav3"]);
+  const [tag, setTag] = useState(["태그1", "태그2", "태그3", "태그4"]);
+  const [note, setNote] = useState([
+    {
+      id: 1,
+      title: "팬케이크",
+      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
+    },
+    {
+      id: 2,
+      title: "팬케이크",
+      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
+    },
+    {
+      id: 3,
+      title: "팬케이크",
+      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
+    },
+    {
+      id: 4,
+      title: "팬케이크",
+      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
+    },
+  ]);
+  const [editable, setEditalbe] = useState("false");
+  const [modal, setModal] = useState(false);
+
+  return (
+    <div className="App grid-container">
+      {modal ? <Modal modal={modal} setModal={setModal}></Modal> : null}
+
+      <Header pageTitle={pageTitle} navItem={navItem}></Header>
+      <div className="grid-item-main">
+        <div className="container-main">
+          <main className="main main-grid-container">
+            <SectionTag tag={tag}></SectionTag>
+            <SectionNote
+              note={note}
+              setModal={setModal}
+              editable={editable}
+            ></SectionNote>
+          </main>
+        </div>
+      </div>
+      <footer id="grid-item-footer footer"></footer>
+    </div>
+  );
+}
+
 function Header({ pageTitle, navItem }) {
   return (
-    <div className="grid-item-header">
-      <div className="container-header">
-        <header className="header">
-          <div className="container-logo">
-            <div className="logo">{pageTitle}</div>
-          </div>
-          <div className="container-search-input">
-            <input className="search-input" type="text" placeholder="검색" />
-          </div>
-          <Nav navItem={navItem}></Nav>
-        </header>
+    <>
+      <div className="grid-item-header">
+        <div className="container-header">
+          <header className="header">
+            <div className="container-logo">
+              <div className="logo">{pageTitle}</div>
+            </div>
+            <div className="container-search-input">
+              <input className="search-input" type="text" placeholder="검색" />
+            </div>
+            <Nav navItem={navItem}></Nav>
+          </header>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -58,17 +109,27 @@ function SectionTag({ tag }) {
   );
 }
 
-function SectionNote({ note }) {
+function SectionNote({ note, editable, setModal }) {
   const arr = note.map(({ id, title, content }) => {
     return (
       <div key={id} className="main-section-note-grid-item">
         <div className="container-note">
-          <div className="note">
+          <div
+            className="note"
+            onClick={() => {
+              console.log(1);
+              setModal(true);
+            }}
+          >
             <div className="container-note-subject">
-              <p className="note-subject">{title}</p>
+              <div className="note-subject" editable={editable}>
+                {title}
+              </div>
             </div>
             <div className="container-note-content">
-              <p>{content}</p>
+              <div className="note-content" editable={editable}>
+                {content}
+              </div>
             </div>
             <div className="container-note-tool">
               <div className="container-note-tool-update-button">
@@ -97,47 +158,21 @@ function SectionNote({ note }) {
   );
 }
 
-function App() {
-  const pageTitle = "초고";
-  const [navItem, setNavItem] = useState(["nav1", "nav2", "nav3"]);
-  const [tag, setTag] = useState(["태그1", "태그2", "태그3", "태그4"]);
-  const [note, setNote] = useState([
-    {
-      id: 1,
-      title: "팬케이크",
-      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
-    },
-    {
-      id: 2,
-      title: "팬케이크",
-      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
-    },
-    {
-      id: 3,
-      title: "팬케이크",
-      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
-    },
-    {
-      id: 4,
-      title: "팬케이크",
-      content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
-    },
-  ]);
-
+function Modal({ modal, setModal }) {
   return (
-    <div className="App grid-container">
-      <Header pageTitle={pageTitle} navItem={navItem}></Header>
-      <div className="grid-item-main">
-        <div className="container-main">
-          <main className="main main-grid-container">
-            <SectionTag tag={tag}></SectionTag>
-            <SectionNote note={note}></SectionNote>
-          </main>
-        </div>
+    <>
+      <div
+        className="container-modal "
+        onClick={(e) => {
+          if (e.target == e.currentTarget) {
+            console.log(e.target, e.currentTarget);
+            setModal(false);
+          }
+        }}
+      >
+        <div className="modal"></div>
       </div>
-      <footer id="grid-item-footer footer"></footer>
-    </div>
+    </>
   );
 }
-
 export default App;
