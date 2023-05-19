@@ -117,7 +117,6 @@ function SectionNote({ note, editable, setModal }) {
           <div
             className="note"
             onClick={() => {
-              console.log(1);
               setModal(true);
             }}
           >
@@ -131,7 +130,7 @@ function SectionNote({ note, editable, setModal }) {
                 {content}
               </div>
             </div>
-            <div className="container-note-tool">
+            {/* <div className="container-note-tool">
               <div className="container-note-tool-update-button">
                 <button className="note-tool-update-button">수정</button>
               </div>
@@ -143,7 +142,7 @@ function SectionNote({ note, editable, setModal }) {
               <div className="container-note-tool-when">
                 <div className="note-tool-when">시간</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -165,7 +164,6 @@ function Modal({ modal, setModal }) {
         className="container-modal "
         onClick={(e) => {
           if (e.target == e.currentTarget) {
-            console.log(e.target, e.currentTarget);
             setModal(false);
           }
         }}
