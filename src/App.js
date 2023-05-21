@@ -11,34 +11,73 @@ function App() {
   // const [switchEditable, setSwitchEditalbe] = useState(false);
   const [switchModalNote, setSwitchModalNote] = useState(false);
   const [modalNoteData, setModalNoteData] = useState("");
-  const [switchTransition, setSwitchTransition] = useState("");
+  const [switchTransition, setSwitchTransition] = useState("transtion2");
+  const [test, setTest] = useState({
+    id: 1,
+    title: "팬케이크1",
+    content: "과유불급이란 말은 과연 팬케이크에 있어서도 예외가 아닌 것이다.",
+  });
 
-  function updateNoteData(e) {
-    const targetNoteDataIndex = noteData.findIndex(
-      (item) => item.id === modalNoteData.id
-    );
+  // function updateNoteData(e) {
+  //   const targetNoteDataIndex = noteData.findIndex(
+  //     (item) => item.id === modalNoteData.id
+  //   );
 
-    if (
-      modalNoteData.title !== noteData[targetNoteDataIndex].title ||
-      modalNoteData.content !== noteData[targetNoteDataIndex].content
-    ) {
-      let copy = [...noteData];
+  //   if (
+  //     modalNoteData.title !== noteData[targetNoteDataIndex].title ||
+  //     modalNoteData.content !== noteData[targetNoteDataIndex].content
+  //   ) {
+  //     let copy = [...noteData];
 
-      copy[targetNoteDataIndex] = modalNoteData;
+  //     copy[targetNoteDataIndex] = modalNoteData;
 
-      setNoteData(copy);
-    }
-  }
+  //     setNoteData(copy);
+  //   }
+  // }
+
+  // function updateNoteData() {
+  //   const targetNoteDataIndex = noteData.findIndex(
+  //     (item) => item.id === test.id
+  //   );
+
+  //   if (
+  //     test.title !== noteData[targetNoteDataIndex].title ||
+  //     test.content !== noteData[targetNoteDataIndex].content
+  //   ) {
+  //     let copy = [...noteData];
+
+  //     copy[targetNoteDataIndex] = test;
+
+  //     setNoteData(copy);
+  //   }
+  // }
 
   useEffect(() => {
     setTimeout(() => {
-      setSwitchTransition("");
+      setSwitchTransition("transition2");
     }, 10);
 
     return () => {
-      setSwitchTransition("transition2");
+      setSwitchTransition("");
     };
   }, [noteData]);
+
+  useEffect(() => {
+    const targetNoteDataIndex = noteData.findIndex(
+      (item) => item.id === test.id
+    );
+
+    if (
+      test.title !== noteData[targetNoteDataIndex].title ||
+      test.content !== noteData[targetNoteDataIndex].content
+    ) {
+      let copy = [...noteData];
+
+      copy[targetNoteDataIndex] = test;
+
+      setNoteData(copy);
+    }
+  }, [switchModalNote]);
 
   return (
     <div className="App">
@@ -49,7 +88,9 @@ function App() {
           setNoteData={setNoteData}
           modalNoteData={modalNoteData}
           setModalNoteData={setModalNoteData}
-          updateNoteData={updateNoteData}
+          // updateNoteData={updateNoteData}
+          test={test}
+          setTest={setTest}
         ></ModalNote>
       ) : null}
 
@@ -66,6 +107,7 @@ function App() {
             setSwitchModalNote={setSwitchModalNote}
             setModalNoteData={setModalNoteData}
             switchTransition={switchTransition}
+            setTest={setTest}
           ></SectionNote>
         </section>
       </main>
@@ -125,6 +167,7 @@ function SectionNote({
   setSwitchModalNote,
   setModalNoteData,
   switchTransition,
+  setTest,
 }) {
   const arr = noteData.map(({ id, title, content }) => {
     return (
@@ -143,6 +186,7 @@ function SectionNote({
             // console.log(modalNoteData);
 
             setModalNoteData(modalNoteData);
+            setTest(modalNoteData);
           }}
         >
           <div className="container-note-subject">
@@ -164,7 +208,9 @@ function ModalNote({
   setNoteData,
   setModalNoteData,
   modalNoteData,
-  updateNoteData,
+  // updateNoteData,
+  test,
+  setTest,
 }) {
   // const { id, title, content } = ModalNoteData;
   return (
@@ -173,7 +219,6 @@ function ModalNote({
         className="background-modal-note"
         onMouseDown={(e) => {
           if (e.target == e.currentTarget) {
-            updateNoteData(e);
             setSwitchModalNote(false);
           }
         }}
@@ -185,15 +230,18 @@ function ModalNote({
                 className="modal-note-subject"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
-                onBlur={(e) => {
+                onInput={(e) => {
+                  console.log("title 포커스 아웃");
                   const textContent = e.target.innerText;
-                  console.log(textContent);
 
                   const copy = { ...modalNoteData };
 
                   copy.title = textContent;
 
-                  setModalNoteData(copy);
+                  // setModalNoteData(copy);
+                  setTest(copy);
+
+                  console.log(test);
                 }}
               >
                 {modalNoteData.title}
@@ -205,14 +253,17 @@ function ModalNote({
                 className="modal-note-content"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
-                onBlur={(e) => {
+                onInput={(e) => {
+                  console.log("content 포커스 아웃");
                   const textContent = e.target.innerText;
 
                   const copy = { ...modalNoteData };
 
                   copy.content = textContent;
 
-                  setModalNoteData(copy);
+                  // setModalNoteData(copy);
+                  setTest(copy);
+                  console.log(test);
                 }}
               >
                 {modalNoteData.content}

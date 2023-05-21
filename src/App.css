@@ -319,12 +319,12 @@ div[contenteditable="true"] {
 }
 
 .transition {
-  opacity: 1;
+  opacity: 0;
 }
 
 .transition2 {
-  opacity: 0;
-  transition: all 1s;
+  opacity: 1;
+  transition: all 0.5s;
 }
 
 /* @media screen and (max-width: 500px) {
