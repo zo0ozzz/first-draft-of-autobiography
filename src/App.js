@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import note from "./noteData";
 
 function App() {
@@ -11,6 +11,34 @@ function App() {
   // const [switchEditable, setSwitchEditalbe] = useState(false);
   const [switchModalNote, setSwitchModalNote] = useState(false);
   const [modalNoteData, setModalNoteData] = useState("");
+  const [switchTransition, setSwitchTransition] = useState("");
+
+  function updateNoteData(e) {
+    const targetNoteDataIndex = noteData.findIndex(
+      (item) => item.id === modalNoteData.id
+    );
+
+    if (
+      modalNoteData.title !== noteData[targetNoteDataIndex].title ||
+      modalNoteData.content !== noteData[targetNoteDataIndex].content
+    ) {
+      let copy = [...noteData];
+
+      copy[targetNoteDataIndex] = modalNoteData;
+
+      setNoteData(copy);
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSwitchTransition("");
+    }, 10);
+
+    return () => {
+      setSwitchTransition("transition2");
+    };
+  }, [noteData]);
 
   return (
     <div className="App">
@@ -21,6 +49,7 @@ function App() {
           setNoteData={setNoteData}
           modalNoteData={modalNoteData}
           setModalNoteData={setModalNoteData}
+          updateNoteData={updateNoteData}
         ></ModalNote>
       ) : null}
 
@@ -36,6 +65,7 @@ function App() {
             noteData={noteData}
             setSwitchModalNote={setSwitchModalNote}
             setModalNoteData={setModalNoteData}
+            switchTransition={switchTransition}
           ></SectionNote>
         </section>
       </main>
@@ -90,12 +120,17 @@ function SectionTag({ tag }) {
   return arr;
 }
 
-function SectionNote({ noteData, setSwitchModalNote, setModalNoteData }) {
+function SectionNote({
+  noteData,
+  setSwitchModalNote,
+  setModalNoteData,
+  switchTransition,
+}) {
   const arr = noteData.map(({ id, title, content }) => {
     return (
       <div className="container-note" key={id}>
         <div
-          className="note"
+          className={`note transition ${switchTransition}`}
           onClick={() => {
             setSwitchModalNote(true);
 
@@ -129,32 +164,16 @@ function ModalNote({
   setNoteData,
   setModalNoteData,
   modalNoteData,
+  updateNoteData,
 }) {
   // const { id, title, content } = ModalNoteData;
   return (
     <>
       <div
         className="background-modal-note"
-        onClick={(e) => {
+        onMouseDown={(e) => {
           if (e.target == e.currentTarget) {
-            const newNoteData = noteData.find((item) => {
-              return item.id === modalNoteData.id;
-            });
-
-            if (modalNoteData.title !== newNoteData.title) {
-              const copy = [...noteData];
-
-              const index = copy.findIndex((item) => {
-                return item.id === modalNoteData.id;
-              });
-
-              copy[index].title = modalNoteData.title;
-
-              setNoteData(copy);
-            } else {
-              console.log("같음");
-            }
-
+            updateNoteData(e);
             setSwitchModalNote(false);
           }
         }}
@@ -167,13 +186,12 @@ function ModalNote({
                 contentEditable="true"
                 suppressContentEditableWarning="true"
                 onBlur={(e) => {
-                  const text = e.target.textContent;
+                  const textContent = e.target.innerText;
+                  console.log(textContent);
 
                   const copy = { ...modalNoteData };
 
-                  copy.title = text;
-
-                  console.log(copy.title);
+                  copy.title = textContent;
 
                   setModalNoteData(copy);
                 }}
@@ -187,6 +205,15 @@ function ModalNote({
                 className="modal-note-content"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
+                onBlur={(e) => {
+                  const textContent = e.target.innerText;
+
+                  const copy = { ...modalNoteData };
+
+                  copy.content = textContent;
+
+                  setModalNoteData(copy);
+                }}
               >
                 {modalNoteData.content}
               </div>

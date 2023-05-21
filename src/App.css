@@ -89,6 +89,8 @@ video {
   border: 0;
   font: inherit;
   font-family: "ibm plex mono";
+  font-size: 99%;
+  line-height: 150%;
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -237,6 +239,10 @@ div[contenteditable="true"] {
 
 .note-subject {
   font-weight: bold;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .container-note-content {
@@ -253,6 +259,7 @@ div[contenteditable="true"] {
   overflow: hidden;
 
   word-break: break-all;
+  white-space: pre-wrap;
 }
 
 .background-modal-note {
@@ -305,7 +312,19 @@ div[contenteditable="true"] {
 }
 
 .modal-note-content {
+  word-break: break-all;
+  white-space: pre-wrap;
+
   /* border: 1px solid; */
+}
+
+.transition {
+  opacity: 1;
+}
+
+.transition2 {
+  opacity: 0;
+  transition: all 1s;
 }
 
 /* @media screen and (max-width: 500px) {
