@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import ReactDOM from "react-dom/client";
+
 function ModalNote({
   setSwitchModalNote,
   noteData,
@@ -7,6 +10,12 @@ function ModalNote({
   dataForUpdatingNoteData,
   setDataForUpdatingNoteData,
 }) {
+  const noteContentElement = useRef();
+
+  const focusInput = () => {
+    noteContentElement.current.focus();
+  };
+
   return (
     <>
       <div
@@ -43,6 +52,7 @@ function ModalNote({
                 className="modal-note-content"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
+                ref={noteContentElement}
                 onInput={(e) => {
                   console.log("update content");
 
