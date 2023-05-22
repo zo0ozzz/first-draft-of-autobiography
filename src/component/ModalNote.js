@@ -1,22 +1,101 @@
 import { useRef, useEffect } from "react";
 
 function ModalNote({
+  switchModalNote,
   setSwitchModalNote,
   noteData,
   setNoteData,
-  setModalNoteData,
   modalNoteData,
+  setModalNoteData,
   dataForUpdatingNoteData,
   setDataForUpdatingNoteData,
 }) {
-  const modalNoteContentElement = useRef();
+  const modalNoteTitle = useRef();
 
   useEffect(function focusOnModalNoteContent() {
-    modalNoteContentElement.current.focus();
+    const modalNoteTitleElement = modalNoteTitle.current;
+
+    focusOnTargetElement(modalNoteTitleElement);
+    placeCaretAtEnd(modalNoteTitleElement);
   }, []);
 
-  // function focusOnModalNoteContent() {
-  // }
+  function focusOnTargetElement(targetElement) {
+    targetElement.focus();
+  }
+
+  function placeCaretAtEnd(targetElement) {
+    if (
+      typeof window.getSelection != "undefined" &&
+      typeof document.createRange != "undefined"
+    ) {
+      var range = document.createRange();
+      range.selectNodeContents(targetElement);
+      range.collapse(false);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+      var textRange = document.body.createTextRange();
+      textRange.moveToElementText(targetElement);
+      textRange.collapse(false);
+      textRange.select();
+    }
+  }
+
+  useEffect(() => {
+    if (checkIsCaseOfOpeningModalNote()) {
+      return;
+    }
+
+    const modalNoteTitleElement = modalNoteTitle.current;
+
+    const noteTitle = modalNoteTitleElement.innerText;
+    console.log(noteTitle);
+    // const copy = { ...modalNoteData };
+    // copy.title = noteTitle;
+
+    // setModalNoteData(copy);
+
+    // if (checkNeedToUpdateNote()) {
+    //   updateNote();
+    //   return;
+    // }
+  }, [switchModalNote]);
+
+  function checkIsCaseOfOpeningModalNote() {
+    return switchModalNote === "show";
+  }
+
+  function checkNeedToUpdateNote() {
+    return (
+      dataForUpdatingNoteData.title !== modalNoteData.title ||
+      dataForUpdatingNoteData.content !== modalNoteData.content
+    );
+  }
+
+  function updateNote() {
+    const index = getIndexOfNoteDataToUpdate();
+
+    updateNoteData(index);
+  }
+
+  function getIndexOfNoteDataToUpdate() {
+    const idOfNoteDataToUpdate = dataForUpdatingNoteData.id;
+
+    const indexOfNoteDataToUpdate = noteData.findIndex(
+      (item) => item.id === idOfNoteDataToUpdate
+    );
+
+    return indexOfNoteDataToUpdate;
+  }
+
+  function updateNoteData(indexOfNoteDataToUpdate) {
+    const copy = [...noteData];
+
+    copy[indexOfNoteDataToUpdate] = dataForUpdatingNoteData;
+
+    setNoteData(copy);
+  }
 
   return (
     <>
@@ -35,16 +114,16 @@ function ModalNote({
                 className="modal-note-subject"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
-                ref={modalNoteContentElement}
-                onInput={(e) => {
-                  console.log("update title");
-                  const noteTitle = e.target.innerText;
+                ref={modalNoteTitle}
+                // onInput={(e) => {
+                //   console.log("update title");
+                //   const noteTitle = e.target.innerText;
 
-                  const copy = { ...dataForUpdatingNoteData };
-                  copy.title = noteTitle;
+                //   const copy = { ...dataForUpdatingNoteData };
+                //   copy.title = noteTitle;
 
-                  setDataForUpdatingNoteData(copy);
-                }}
+                //   setDataForUpdatingNoteData(copy);
+                // }}
               >
                 {modalNoteData.title}
               </div>
