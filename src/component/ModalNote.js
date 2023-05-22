@@ -4,10 +4,9 @@ function ModalNote({
   setNoteData,
   setModalNoteData,
   modalNoteData,
-  messengerOfUpdatedNote,
-  setMessengerOfUpdatedNote,
+  dataForUpdatingNoteData,
+  setDataForUpdatingNoteData,
 }) {
-  console.log(1, modalNoteData);
   return (
     <>
       <div
@@ -29,11 +28,10 @@ function ModalNote({
                   console.log("update title");
                   const noteTitle = e.target.innerText;
 
-                  const copy = { ...modalNoteData };
+                  const copy = { ...dataForUpdatingNoteData };
                   copy.title = noteTitle;
 
-                  setMessengerOfUpdatedNote(copy);
-                  console.log(messengerOfUpdatedNote);
+                  setDataForUpdatingNoteData(copy);
                 }}
               >
                 {modalNoteData.title}
@@ -50,11 +48,11 @@ function ModalNote({
 
                   const noteContent = e.target.innerText;
 
-                  const copy = { ...messengerOfUpdatedNote };
+                  const copy = { ...dataForUpdatingNoteData };
 
                   copy.content = noteContent;
 
-                  setMessengerOfUpdatedNote(copy);
+                  setDataForUpdatingNoteData(copy);
                 }}
               >
                 {modalNoteData.content}

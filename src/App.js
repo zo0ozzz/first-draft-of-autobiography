@@ -14,30 +14,57 @@ function App() {
   const [navData, setNavData] = useState(["nav1", "nav2", "nav3"]);
   const [tagData, setTagData] = useState(["태그1", "태그2", "태그3"]);
   const [noteData, setNoteData] = useState(note);
-
-  const [messengerOfUpdatedNote, setMessengerOfUpdatedNote] = useState("");
-
   const [modalNoteData, setModalNoteData] = useState("");
+  const [dataForUpdatingNoteData, setDataForUpdatingNoteData] = useState("");
 
   // switch state
   const [switchModalNote, setSwitchModalNote] = useState("hide");
 
-  // useEffect(() => {
-  //   if (switchModalNote === "show") {
-  //     return;
-  //   }
+  useEffect(() => {
+    if (checkIsCaseOfOpeningModalNote()) {
+      return;
+    }
 
-  //   if (messengerOfUpdatedNote.title !== modalNoteData.title) {
-  //     console.log(111);
-  //   } else {
-  //     console.log(222);
-  //   }
-  // });
+    if (checkNeedToUpdateNote()) {
+      updateNote();
+      return;
+    }
+  }, [switchModalNote]);
 
-  useEffect(
-    () => console.log(messengerOfUpdatedNote),
-    [messengerOfUpdatedNote]
-  );
+  function checkIsCaseOfOpeningModalNote() {
+    return switchModalNote === "show";
+  }
+
+  function checkNeedToUpdateNote() {
+    return (
+      dataForUpdatingNoteData.title !== modalNoteData.title ||
+      dataForUpdatingNoteData.content !== modalNoteData.content
+    );
+  }
+
+  function updateNote() {
+    const index = getIndexOfNoteDataToUpdate();
+
+    updateNoteData(index);
+  }
+
+  function getIndexOfNoteDataToUpdate() {
+    const idOfNoteDataToUpdate = dataForUpdatingNoteData.id;
+
+    const indexOfNoteDataToUpdate = noteData.findIndex(
+      (item) => item.id === idOfNoteDataToUpdate
+    );
+
+    return indexOfNoteDataToUpdate;
+  }
+
+  function updateNoteData(indexOfNoteDataToUpdate) {
+    const copy = [...noteData];
+
+    copy[indexOfNoteDataToUpdate] = dataForUpdatingNoteData;
+
+    setNoteData(copy);
+  }
 
   return (
     <div className="App">
@@ -47,8 +74,8 @@ function App() {
           setNoteData={setNoteData}
           modalNoteData={modalNoteData}
           setModalNoteData={setModalNoteData}
-          messengerOfUpdatedNote={messengerOfUpdatedNote}
-          setMessengerOfUpdatedNote={setMessengerOfUpdatedNote}
+          dataForUpdatingNoteData={dataForUpdatingNoteData}
+          setDataForUpdatingNoteData={setDataForUpdatingNoteData}
           setSwitchModalNote={setSwitchModalNote}
         ></ModalNote>
       ) : null}
@@ -63,8 +90,8 @@ function App() {
           <SectionNote
             noteData={noteData}
             setModalNoteData={setModalNoteData}
-            messengerOfUpdatedNote={messengerOfUpdatedNote}
-            setMessengerOfUpdatedNote={setMessengerOfUpdatedNote}
+            dataForUpdatingNoteData={dataForUpdatingNoteData}
+            setDataForUpdatingNoteData={setDataForUpdatingNoteData}
             setSwitchModalNote={setSwitchModalNote}
           ></SectionNote>
         </section>
