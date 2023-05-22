@@ -7,13 +7,13 @@ function ModalNote({
   messengerOfUpdatedNote,
   setMessengerOfUpdatedNote,
 }) {
-  // setMessengerOfUpdatedNote(modalNoteData);
+  console.log(1, modalNoteData);
   return (
     <>
       <div
         className="background-modal-note"
         onMouseDown={(e) => {
-          if (e.target == e.currentTarget) {
+          if (e.target === e.currentTarget) {
             setSwitchModalNote("hide");
           }
         }}
@@ -27,17 +27,13 @@ function ModalNote({
                 suppressContentEditableWarning="true"
                 onInput={(e) => {
                   console.log("update title");
-                  console.log(messengerOfUpdatedNote);
-
                   const noteTitle = e.target.innerText;
 
-                  const copy = { ...messengerOfUpdatedNote };
-
+                  const copy = { ...modalNoteData };
                   copy.title = noteTitle;
 
-                  console.log(copy);
-
                   setMessengerOfUpdatedNote(copy);
+                  console.log(messengerOfUpdatedNote);
                 }}
               >
                 {modalNoteData.title}

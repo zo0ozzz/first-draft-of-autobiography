@@ -1,8 +1,9 @@
 function SectionNote({
   noteData,
-  setSwitchModalNote,
   setModalNoteData,
+  messengerOfUpdatedNote,
   setMessengerOfUpdatedNote,
+  setSwitchModalNote,
 }) {
   const arr = noteData.map(({ id, title, content }) => {
     return (
@@ -12,14 +13,14 @@ function SectionNote({
           onClick={() => {
             setSwitchModalNote("show");
 
-            const copy = [...noteData];
-
-            const selectedNoteData = copy.find((item) => {
+            const selectedNoteData = noteData.find((item) => {
               return item.id === id;
             });
 
             setModalNoteData(selectedNoteData);
             setMessengerOfUpdatedNote(selectedNoteData);
+
+            return;
           }}
         >
           <div className="container-note-subject">
@@ -35,19 +36,5 @@ function SectionNote({
 
   return arr;
 }
-
-// function showModalNote(id) {
-//   setSwitchModalNote("show");
-
-//   const selectedNoteData = getSelectedNoteDataById(id);
-
-//   setModalNoteData(selectedNoteData);
-
-//   function getSelectedNoteDataById(id) {
-//     const selectedNoteData = noteData.find((item) => {
-//       return item.id === id;
-//     });
-//   }
-// }
 
 export default SectionNote;

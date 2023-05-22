@@ -14,19 +14,29 @@ function App() {
   const [navData, setNavData] = useState(["nav1", "nav2", "nav3"]);
   const [tagData, setTagData] = useState(["태그1", "태그2", "태그3"]);
   const [noteData, setNoteData] = useState(note);
-  const [modalNoteData, setModalNoteData] = useState("");
+
   const [messengerOfUpdatedNote, setMessengerOfUpdatedNote] = useState("");
+
+  const [modalNoteData, setModalNoteData] = useState("");
 
   // switch state
   const [switchModalNote, setSwitchModalNote] = useState("hide");
 
+  // useEffect(() => {
+  //   if (switchModalNote === "show") {
+  //     return;
+  //   }
+
+  //   if (messengerOfUpdatedNote.title !== modalNoteData.title) {
+  //     console.log(111);
+  //   } else {
+  //     console.log(222);
+  //   }
+  // });
+
   useEffect(
-    function updateNoteData() {
-      if (switchModalNote === "show") {
-        return;
-      }
-    },
-    [switchModalNote]
+    () => console.log(messengerOfUpdatedNote),
+    [messengerOfUpdatedNote]
   );
 
   return (
@@ -37,11 +47,11 @@ function App() {
           setNoteData={setNoteData}
           modalNoteData={modalNoteData}
           setModalNoteData={setModalNoteData}
+          messengerOfUpdatedNote={messengerOfUpdatedNote}
           setMessengerOfUpdatedNote={setMessengerOfUpdatedNote}
           setSwitchModalNote={setSwitchModalNote}
         ></ModalNote>
       ) : null}
-
       <header className="header">
         <NavBar pageTitle={pageTitle} navData={navData}></NavBar>
       </header>
@@ -53,6 +63,7 @@ function App() {
           <SectionNote
             noteData={noteData}
             setModalNoteData={setModalNoteData}
+            messengerOfUpdatedNote={messengerOfUpdatedNote}
             setMessengerOfUpdatedNote={setMessengerOfUpdatedNote}
             setSwitchModalNote={setSwitchModalNote}
           ></SectionNote>
