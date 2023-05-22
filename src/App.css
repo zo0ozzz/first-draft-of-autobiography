@@ -275,8 +275,6 @@ div[contenteditable="true"] {
 
 .container-modal-note {
   width: 400px;
-  /* height: 150px; */
-  /* max-height: 500px; */
 
   margin: 10% auto 0 auto;
 }
@@ -318,14 +316,14 @@ div[contenteditable="true"] {
   /* border: 1px solid; */
 }
 
-.transition {
+/* .transition {
   opacity: 0;
 }
 
 .transition2 {
   opacity: 1;
   transition: all 0.5s;
-}
+} */
 
 /* @media screen and (max-width: 500px) {
   .main-grid-container {
