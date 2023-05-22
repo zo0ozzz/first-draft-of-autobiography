@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import ReactDOM from "react-dom/client";
+import { useRef, useEffect } from "react";
 
 function ModalNote({
   setSwitchModalNote,
@@ -10,11 +9,14 @@ function ModalNote({
   dataForUpdatingNoteData,
   setDataForUpdatingNoteData,
 }) {
-  const noteContentElement = useRef();
+  const modalNoteContentElement = useRef();
 
-  const focusInput = () => {
-    noteContentElement.current.focus();
-  };
+  useEffect(function focusOnModalNoteContent() {
+    modalNoteContentElement.current.focus();
+  }, []);
+
+  // function focusOnModalNoteContent() {
+  // }
 
   return (
     <>
@@ -33,6 +35,7 @@ function ModalNote({
                 className="modal-note-subject"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
+                ref={modalNoteContentElement}
                 onInput={(e) => {
                   console.log("update title");
                   const noteTitle = e.target.innerText;
@@ -52,7 +55,6 @@ function ModalNote({
                 className="modal-note-content"
                 contentEditable="true"
                 suppressContentEditableWarning="true"
-                ref={noteContentElement}
                 onInput={(e) => {
                   console.log("update content");
 
