@@ -7,9 +7,6 @@ import SectionTag from "./component/SectionTag";
 import SectionNote from "./component/SectionNote";
 
 function App() {
-  // window.addEventListener("mouseup", () => {
-  //   console.log(window.getSelection());
-  // });
   // js variable
   const pageTitle = "초고";
 
@@ -23,51 +20,71 @@ function App() {
   // switch state
   const [switchModalNote, setSwitchModalNote] = useState("hide");
 
-  // useEffect(() => {
-  //   if (checkIsCaseOfOpeningModalNote()) {
-  //     return;
-  //   }
+  useEffect(() => {
+    if (checkIsCaseOfOpeningModalNote()) {
+      return;
+    }
 
-  //   if (checkNeedToUpdateNote()) {
-  //     updateNote();
-  //     return;
-  //   }
-  // }, [switchModalNote]);
+    if (checkNeedToUpdateNote()) {
+      updateNote();
+      return;
+    }
+  }, [switchModalNote]);
 
-  // function checkIsCaseOfOpeningModalNote() {
-  //   return switchModalNote === "show";
-  // }
+  function checkIsCaseOfOpeningModalNote() {
+    return switchModalNote === "show";
+  }
 
-  // function checkNeedToUpdateNote() {
-  //   return (
-  //     dataForUpdatingNoteData.title !== modalNoteData.title ||
-  //     dataForUpdatingNoteData.content !== modalNoteData.content
-  //   );
-  // }
+  function checkNeedToUpdateNote() {
+    return (
+      dataForUpdatingNoteData.title !== modalNoteData.title ||
+      dataForUpdatingNoteData.content !== modalNoteData.content
+    );
+  }
 
-  // function updateNote() {
-  //   const index = getIndexOfNoteDataToUpdate();
+  function updateNote() {
+    const index = getIndexOfNoteDataToUpdate();
 
-  //   updateNoteData(index);
-  // }
+    updateNoteData(index);
+  }
 
-  // function getIndexOfNoteDataToUpdate() {
-  //   const idOfNoteDataToUpdate = dataForUpdatingNoteData.id;
+  function getIndexOfNoteDataToUpdate() {
+    const idOfNoteDataToUpdate = dataForUpdatingNoteData.id;
 
-  //   const indexOfNoteDataToUpdate = noteData.findIndex(
-  //     (item) => item.id === idOfNoteDataToUpdate
-  //   );
+    if (idOfNoteDataToUpdate === 0) {
+      return idOfNoteDataToUpdate;
+    }
 
-  //   return indexOfNoteDataToUpdate;
-  // }
+    const indexOfNoteDataToUpdate = noteData.findIndex(
+      (item) => item.id === idOfNoteDataToUpdate
+    );
 
-  // function updateNoteData(indexOfNoteDataToUpdate) {
-  //   const copy = [...noteData];
+    return indexOfNoteDataToUpdate;
+  }
 
-  //   copy[indexOfNoteDataToUpdate] = dataForUpdatingNoteData;
+  function updateNoteData(indexOfNoteDataToUpdate) {
+    const copy = [...noteData];
 
-  //   setNoteData(copy);
-  // }
+    if (indexOfNoteDataToUpdate === 0) {
+      const newId = noteData.length + 1;
+
+      const newNoteData = {
+        id: newId,
+        title: dataForUpdatingNoteData.title,
+        content: dataForUpdatingNoteData.content,
+      };
+
+      copy.push(newNoteData);
+
+      setNoteData(copy);
+
+      return;
+    }
+
+    copy[indexOfNoteDataToUpdate] = dataForUpdatingNoteData;
+
+    setNoteData(copy);
+  }
 
   return (
     <div className="App">

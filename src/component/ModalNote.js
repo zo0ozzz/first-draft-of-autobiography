@@ -42,61 +42,6 @@ function ModalNote({
     }
   }
 
-  useEffect(() => {
-    if (checkIsCaseOfOpeningModalNote()) {
-      return;
-    }
-
-    const modalNoteTitleElement = modalNoteTitle.current;
-
-    const noteTitle = modalNoteTitleElement.innerText;
-    console.log(noteTitle);
-    // const copy = { ...modalNoteData };
-    // copy.title = noteTitle;
-
-    // setModalNoteData(copy);
-
-    // if (checkNeedToUpdateNote()) {
-    //   updateNote();
-    //   return;
-    // }
-  }, [switchModalNote]);
-
-  function checkIsCaseOfOpeningModalNote() {
-    return switchModalNote === "show";
-  }
-
-  function checkNeedToUpdateNote() {
-    return (
-      dataForUpdatingNoteData.title !== modalNoteData.title ||
-      dataForUpdatingNoteData.content !== modalNoteData.content
-    );
-  }
-
-  function updateNote() {
-    const index = getIndexOfNoteDataToUpdate();
-
-    updateNoteData(index);
-  }
-
-  function getIndexOfNoteDataToUpdate() {
-    const idOfNoteDataToUpdate = dataForUpdatingNoteData.id;
-
-    const indexOfNoteDataToUpdate = noteData.findIndex(
-      (item) => item.id === idOfNoteDataToUpdate
-    );
-
-    return indexOfNoteDataToUpdate;
-  }
-
-  function updateNoteData(indexOfNoteDataToUpdate) {
-    const copy = [...noteData];
-
-    copy[indexOfNoteDataToUpdate] = dataForUpdatingNoteData;
-
-    setNoteData(copy);
-  }
-
   return (
     <>
       <div
@@ -115,15 +60,15 @@ function ModalNote({
                 contentEditable="true"
                 suppressContentEditableWarning="true"
                 ref={modalNoteTitle}
-                // onInput={(e) => {
-                //   console.log("update title");
-                //   const noteTitle = e.target.innerText;
+                onInput={(e) => {
+                  console.log("update title");
+                  const noteTitle = e.target.innerText;
 
-                //   const copy = { ...dataForUpdatingNoteData };
-                //   copy.title = noteTitle;
+                  const copy = { ...dataForUpdatingNoteData };
+                  copy.title = noteTitle;
 
-                //   setDataForUpdatingNoteData(copy);
-                // }}
+                  setDataForUpdatingNoteData(copy);
+                }}
               >
                 {modalNoteData.title}
               </div>

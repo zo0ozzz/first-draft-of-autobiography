@@ -4,7 +4,9 @@ function SectionNote({
   setDataForUpdatingNoteData,
   setSwitchModalNote,
 }) {
-  const arr = noteData.map(({ id, title, content }) => {
+  const copy = [...noteData].reverse();
+
+  const arr = copy.map(({ id, title, content }) => {
     return (
       <div className="container-note" key={id}>
         <div
@@ -28,38 +30,44 @@ function SectionNote({
           <div className="container-note-content">
             <div className="note-content">{content}</div>
           </div>
+          <div>
+            <button>삭제</button>
+          </div>
         </div>
       </div>
     );
   });
 
-  return [
-    <div className="container-note">
-      <div
-        className="note"
-        onClick={() => {
-          setSwitchModalNote("show");
+  return (
+    <>
+      {" "}
+      <div className="container-note" key={0}>
+        <div
+          className="note"
+          onClick={() => {
+            setSwitchModalNote("show");
 
-          // const selectedNoteData = noteData.find((item) => {
-          //   return item.id === id;
-          // });
+            const newNoteData = {
+              id: 0,
+              title: "",
+              content: "",
+            };
 
-          // setModalNoteData(selectedNoteData);
-          // setDataForUpdatingNoteData(selectedNoteData);
-
-          // return;
-        }}
-      >
-        <div className="container-note-subject">
-          <div className="note-subject">그렇죠?</div>
-        </div>
-        <div className="container-note-content">
-          <div className="note-content"></div>
+            setModalNoteData(newNoteData);
+            setDataForUpdatingNoteData(newNoteData);
+          }}
+        >
+          <div className="container-note-subject">
+            <div className="note-subject">new</div>
+          </div>
+          <div className="container-note-content">
+            <div className="note-content"></div>
+          </div>
         </div>
       </div>
-    </div>,
-    arr,
-  ];
+      {arr}
+    </>
+  );
 }
 
 export default SectionNote;
