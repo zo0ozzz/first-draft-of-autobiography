@@ -37,14 +37,14 @@ function NewNote({
   setSwitchModalNote,
   setElementToFocusAtOpeningModalNote,
 }) {
-  function onClickHandler(elementToFocusAtOpeningModal) {
-    setModalNote(elementToFocusAtOpeningModal);
+  function onClickHandler(elementToFocusAtOpeningModalNote) {
+    setModalNote(elementToFocusAtOpeningModalNote);
 
     setSwitchModalNote("show");
   }
 
-  function setModalNote(elementToFocusAtOpeningModal) {
-    setElementToFocusAtOpeningModalNote(elementToFocusAtOpeningModal);
+  function setModalNote(elementToFocusAtOpeningModalNote) {
+    setElementToFocusAtOpeningModalNote(elementToFocusAtOpeningModalNote);
 
     const newNoteData = {
       id: 0,
@@ -62,21 +62,13 @@ function NewNote({
         <div className="note">
           <div
             className="container-note-subject"
-            onClick={() => {
-              onClickHandler("titleOfModalNote");
-            }}
+            onClick={() => onClickHandler("titleOfModalNote")}
           >
             <div className="note-subject">new</div>
           </div>
           <div
             className="container-note-content"
-            onClick={(e) => {
-              e.stopPropagation();
-
-              setModalNote("contentOfModalNote");
-
-              setSwitchModalNote("show");
-            }}
+            onClick={() => onClickHandler("contentOfModalNote")}
           >
             <div className="note-content"></div>
           </div>
@@ -93,6 +85,25 @@ function Note({
   setSwitchModalNote,
   setElementToFocusAtOpeningModalNote,
 }) {
+  // 반복되는 부분만 함수로 만들어야 함. 괜히 다른 거 했다가 힘들어짐.
+
+  function onClickHandler(e, id, elementToFocusAtOpeningModalNote) {
+    e.stopPropagation();
+
+    setElementToFocusAtOpeningModalNote(elementToFocusAtOpeningModalNote);
+
+    const selectedNoteData = noteData.find((item) => {
+      return item.id === id;
+    });
+
+    setModalNoteData(selectedNoteData);
+    setDataForUpdatingNoteData(selectedNoteData);
+
+    setSwitchModalNote("show");
+
+    return;
+  }
+
   const copy = [...noteData].reverse();
 
   const arr = copy.map(({ id, title, content }) => {
@@ -116,42 +127,13 @@ function Note({
         >
           <div
             className="container-note-subject"
-            onClick={(e) => {
-              e.stopPropagation();
-              setElementToFocusAtOpeningModalNote("titleOfModalNote");
-
-              setSwitchModalNote("show");
-
-              const selectedNoteData = noteData.find((item) => {
-                return item.id === id;
-              });
-
-              setModalNoteData(selectedNoteData);
-              setDataForUpdatingNoteData(selectedNoteData);
-
-              return;
-            }}
+            onClick={(e) => onClickHandler(e, id, "titleOfModalNote")}
           >
             <div className="note-subject">{title}</div>
           </div>
           <div
             className="container-note-content"
-            onClick={(e) => {
-              e.stopPropagation();
-
-              setElementToFocusAtOpeningModalNote("contentOfModalNote");
-
-              setSwitchModalNote("show");
-
-              const selectedNoteData = noteData.find((item) => {
-                return item.id === id;
-              });
-
-              setModalNoteData(selectedNoteData);
-              setDataForUpdatingNoteData(selectedNoteData);
-
-              return;
-            }}
+            onClick={(e) => onClickHandler(e, id, "contentOfModalNote")}
           >
             <div className="note-content">{content}</div>
           </div>
