@@ -9,15 +9,34 @@ function ModalNote({
   setModalNoteData,
   dataForUpdatingNoteData,
   setDataForUpdatingNoteData,
+  elementToFocusAtOpeningModalNote,
 }) {
-  const modalNoteTitle = useRef();
+  const titleOfModalNote = useRef();
+  const contentOfModalNote = useRef();
 
-  useEffect(function focusOnModalNoteContent() {
-    const modalNoteTitleElement = modalNoteTitle.current;
+  useEffect(function placeFocusAtOpeningModalNote() {
+    const targetElement = getTargetElement();
 
-    focusOnTargetElement(modalNoteTitleElement);
-    placeCaretAtEnd(modalNoteTitleElement);
+    focusOnTargetElement(targetElement);
+    placeCaretAtEnd(targetElement);
   }, []);
+
+  function getTargetElement() {
+    if (elementToFocusAtOpeningModalNote === "titleOfModalNote") {
+      const targetElement = titleOfModalNote.current;
+
+      return targetElement;
+    }
+
+    if (elementToFocusAtOpeningModalNote === "contentOfModalNote") {
+      const targetElement = contentOfModalNote.current;
+
+      focusOnTargetElement(targetElement);
+      placeCaretAtEnd(targetElement);
+
+      return targetElement;
+    }
+  }
 
   function focusOnTargetElement(targetElement) {
     targetElement.focus();
@@ -57,9 +76,9 @@ function ModalNote({
             <div className="container-modal-note-subject">
               <div
                 className="modal-note-subject"
+                ref={titleOfModalNote}
                 contentEditable="true"
                 suppressContentEditableWarning="true"
-                ref={modalNoteTitle}
                 onInput={(e) => {
                   console.log("update title");
                   const noteTitle = e.target.innerText;
@@ -77,6 +96,7 @@ function ModalNote({
             <div className="container-modal-note-content">
               <div
                 className="modal-note-content"
+                ref={contentOfModalNote}
                 contentEditable="true"
                 suppressContentEditableWarning="true"
                 onInput={(e) => {

@@ -19,6 +19,10 @@ function App() {
 
   // switch state
   const [switchModalNote, setSwitchModalNote] = useState("hide");
+  const [
+    elementToFocusAtOpeningModalNote,
+    setElementToFocusAtOpeningModalNote,
+  ] = useState("titleOfModalNote");
 
   useEffect(() => {
     if (checkIsCaseOfOpeningModalNote()) {
@@ -96,6 +100,7 @@ function App() {
           setModalNoteData={setModalNoteData}
           dataForUpdatingNoteData={dataForUpdatingNoteData}
           setDataForUpdatingNoteData={setDataForUpdatingNoteData}
+          elementToFocusAtOpeningModalNote={elementToFocusAtOpeningModalNote}
           setSwitchModalNote={setSwitchModalNote}
         ></ModalNote>
       ) : null}
@@ -112,6 +117,9 @@ function App() {
             setModalNoteData={setModalNoteData}
             dataForUpdatingNoteData={dataForUpdatingNoteData}
             setDataForUpdatingNoteData={setDataForUpdatingNoteData}
+            setElementToFocusAtOpeningModalNote={
+              setElementToFocusAtOpeningModalNote
+            }
             setSwitchModalNote={setSwitchModalNote}
           ></SectionNote>
         </section>
